@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="jumbotron mt-4 ">
+    <h1>{{ title }}</h1>    
+   
+</div>
+
+<div class="top-pad">
+    {{ mesage }}
+     
+    <h2>Wall Specifications</h2>
+    <small>
+        {{ wall.tag }}<br>
+        {{ wall.height }}<br>
+        {{ wall.length }}
+    </small>
+</div>
+{% endblock %}
+
+<h2> Welcome to The Fastest Estimator</h2>
+

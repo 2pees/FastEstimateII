@@ -1,0 +1,112 @@
+{% extends 'dashboard_layout.html' %}
+{% block content %}
+
+<h4>{{ title }}</h4>    
+<small>{{ data.doc_id }}
+    {{ data.wall_tag }}
+    </small>
+    <table class="table mt-4">
+  <thead class="thead-dark">
+    <tr>
+        <th scope="col">No.</th>
+      <th scope="col">Id</th>
+      <th scope="col">Tag</th>
+      <th scope="col">Length</th>
+      <th scope="col">Height</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>{{ data.doc_id }}</td>
+      <td>{{ data.wall_tag }}</td>
+      <td>{{ data.length }}</td>
+      <td>{{ data.height }}</td>
+    </tr>
+    
+   
+  </tbody>
+</table>
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Description</th>
+      <th scope="col">Unit</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Rate</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>To Erect {{ data.estimate.blocks.block.type }} wall</td>
+      <td>Sqr.Ft</td>
+      <td>{{ data.estimate.area }}</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Blocks</td>
+      <td>Each</td>
+      <td>{{ data.estimate.blocks.wall.blocks }}</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Vertical Bars</td>
+      <td>Length</td>
+      <td>{{ data.estimate.verticalBars }}</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th scope="row">4</th>
+      <td>Horizontal Bars</td>
+      <td>Length</td>
+      <td>{{ data.estimate.horizontalBars }}</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td>Finishes</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">5</th>
+      <td>Rough Cast To Wall</td>
+      <td>Sq.Yd</td>
+      <td>{{ data.estimate.roughCast }}</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th scope="row">6</th>
+      <td>Render To Wall</td>
+      <td>Sq.Yd</td>
+      <td>{{ data.estimate.render }}</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th scope="row">7</th>
+      <td>Walls in Narrow width <small>Flat Jamb</small></td>
+      <td>Ft.Rn</td>
+      <td>{{ data.estimate.flats }}</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+{{ data }}
+<h2>Openings </h2>
+{{ opening }}
+{% endblock %}

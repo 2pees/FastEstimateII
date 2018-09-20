@@ -1,0 +1,46 @@
+{% extends 'dashboard_layout.html' %}
+{% block content %}
+
+    <h4>{{ title }}</h4>    
+   
+<hr>
+<div class="row">
+    <div class="col-3">
+            <div class="top-pad">
+                    <small>Opening Category</small></span>  
+                        <form class="form-horizontal" method="POST" action="{{ url_for('index.category_create') }}" role="form"> 
+                                {{ form.csrf_token }}         
+                            <div class="form-group">{{ form.name.label }}{{ form.name(class_="form-control") }}</div>
+            
+                                <button type="submit" class="btn btn-default">Submit</button>      
+                        </form>
+            </div>
+
+
+    </div>
+    <div class="col-3">
+            <div class="top-pad">
+                   
+            </div>
+
+
+    </div>
+    <div class="col-3">
+            <div class="top-pad">
+                    
+            </div>
+
+
+    </div>
+    <div class="col-3">
+            <div class="top-pad">
+                   
+            </div>
+
+
+    </div>
+    
+       
+</div>
+
+{% endblock %}

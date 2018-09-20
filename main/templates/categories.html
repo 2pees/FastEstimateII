@@ -1,0 +1,17 @@
+{% extends 'dashboard_layout.html' %}
+{% block content %}
+
+<div class="jumbotron">
+    <h1>{{ title }}</h1>    
+   
+</div>
+
+<div class="top-pad">
+{% for category in categories %}
+
+<a href="{{ url_for('index.category', id=category.id) }}">
+<h5>{{ category.name }}</h5>
+</a>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'dashboard_layout.html' %}
+{% block content %}
+<div class="jumbotron">
+    <h1>{{ title }}</h1>    
+   
+</div>
+
+<div class="top-pad">
+    {% for wall in walls.items %}
+<div class="well">
+<h2>
+<a href="{{ url_for('index.wall', id=wall.id)
+}}">{{ wall.name }}</a>
+<small>$ {{ wall.price }}</small>
+</h2>
+</div>
+{% endfor %}
+{% if walls.has_prev %}
+<a href="{{ url_for('index.walls',
+page=walls.prev_num) }}">
+{{"<< Previous Page"}}
+</a>
+{% else %}
+{{"<< Previous Page"}}
+{% endif %} |
+{% if walls.has_next %}
+<a href="{{ url_for('index.walls',
+page=walls.next_num) }}">
+{{"Next page >>"}}
+</a>
+{% else %}
+{{"Next page >>"}}
+{% endif %}
+</div>
+{% endblock %}

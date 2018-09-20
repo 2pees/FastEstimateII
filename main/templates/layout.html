@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <title>{{ title }} - CENTRYPLAN Construction Portal</title>
+    <link rel="stylesheet" type="text/css" href="/static/scripts/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/scripts/css/site.css" />
+    <script src="/static/scripts/js/modernizr-2.6.2.js"></script>
+</head>
+
+<body>
+    <div class="container mt-1">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-1">
+  <a class="navbar-brand" href="#">FastEstimate</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('index.home') }}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Estimator
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{{ url_for('index.home') }}">Wall</a>
+          <a class="dropdown-item" href="{{ url_for('index.getwall') }}">Wall Bq</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</nav>
+     </div>
+        <main role="main" class="container body-content">
+        <div class="row">
+            <div class="col-md-6">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                        aria-hidden="true">&times;</button>
+                        {{ message }}        
+                    </div>        
+                {% endfor %}
+            {% endif %}        
+        {% endwith %}
+            {% block content %}{% endblock %}
+            <hr />
+        </div>
+    <div class="col-md-4">
+        <div class="content-section mt-4">
+            <h3>SideBar</h3>
+            <p class='text-muted'>
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Jobs</li>
+                <li class="list-group-item list-group-item-light">Announcements</li>
+                <li class="list-group-item list-group-item-light">Calendars</li>
+                
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main> 
+            
+    
+        <footer>
+            <p>&copy; {{ year }} - FastEstimate </p>
+        </footer>
+    
+    <script src="/static/scripts/js/jquery-3.3.1.js"></script>
+    <script src="/static/scripts/js/bootstrap.js"></script>
+    <script src="/static/scripts/js/respond.js"></script>
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>
+
