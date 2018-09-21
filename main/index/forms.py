@@ -42,7 +42,7 @@ class ColumnEntryForm(FlaskForm):
     composite_bar_amt = TextField('Amount CompositeBar')
     stir_spacing = DecimalField('Stirrup Spacing')
 
-class FootingEntryForm(FlaskForm):
+class FoundationEntryForm(FlaskForm):
     tag = TextField('Foundation Tag', validators=[InputRequired()], render_kw={'autofocus':True})
     wg_tag = TextField('Wall Tag')
     category = SelectField('Category', coerce=int)
@@ -59,6 +59,7 @@ class FootingEntryForm(FlaskForm):
     stir_bar_type = TextField('Stirrup BarType')
 
     top_bar_amt = TextField('Amount TopBar')
+    mid_bar_amt = TextField('Amount MidBar')
     bot_bar_amt = TextField('Amount BottomBar')
     stir_spacing = DecimalField('Stirrup Spacing')
                

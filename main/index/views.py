@@ -4,8 +4,8 @@
 from main import abort,app,Blueprint,date,db,dumps,flash,jsonify,loads,parse,redirect,render_template,requests,request,Resource,sample,url_for,uu_id#,qsrep 
 
 # Application Resources
-from main.index.models import Beam, Column, Opening, Category, Wall
-from main.index.forms import  BarTypeForm, BeamEntryForm, BeamCategoryForm, ColumnEntryForm, WallEntryForm,  OpeningForm,  WallBarsForm, CategoryForm,  ColumnCategoryForm, WallCategoryForm 
+from main.index.models import Beam, Column, Foundation, Opening, Category, Wall
+from main.index.forms import  BarTypeForm, BeamEntryForm, BeamCategoryForm, ColumnEntryForm, FoundationEntryForm, WallEntryForm,  OpeningForm,  WallBarsForm, CategoryForm,  ColumnCategoryForm, WallCategoryForm 
 from main.index.qsrep import Walls
 from main.Bq import estimator
 # initialise once
@@ -45,31 +45,30 @@ def getwall():
     categories = [(c.id, c.name) for c in Category.query.all()]
 
     c_form = ColumnEntryForm(request.form)
+    f_form = FoundationEntryForm(request.form)  
     o_form = OpeningForm(request.form)
     sb_form = BeamEntryForm(request.form)
-    w_form = WallEntryForm(request.form)  
+    w_form = WallEntryForm(request.form)
+   
 
     c_form.category.choices = categories
+    f_form.category.choices = categories 
     o_form.category.choices = categories
     sb_form.category.choices = categories
     w_form.category.choices = categories    
 
-    beams = Beam.query.all()
-    columns = Column.query.all() 
-    openings = Opening.query.all()
-    walls = Wall.query.all() 
-
-
     return render_template('wall_index.html',
     title='FastEstimate Wall', 
     beam_form=sb_form,
-    column_form=c_form,  
+    column_form=c_form,
+    foundation_form=f_form,  
     opening_form=o_form,
     wall_form=w_form,    
-    beams=beams,
-    columns=columns,
-    openings=openings,
-    walls=walls    
+    beams=Beam.query.all(),
+    columns=Column.query.all(),
+    foundations=Foundation.query.all(),  
+    openings=Opening.query.all(),
+    walls=Wall.query.all()    
     )
 
 @index.route('/wall_result', methods=['POST'])
@@ -156,15 +155,15 @@ def beam_result():
     data['category'] = Category.query.get_or_404(request.form.get('category')) 
 
 
-    data['topbar'] = request.form.get('topbar')
-    data['midbar'] = request.form.get('midbar')
-    data['botbar'] = request.form.get('botbar')
-    data['stirup'] = request.form.get('stirup')
+    data['topbar'] = request.form.get('top_bar_type')
+    data['midbar'] = request.form.get('mid_bar_type')
+    data['botbar'] = request.form.get('bot_bar_type')
+    data['stirup'] = request.form.get('stir_bar_type')
 
-    data['topbar_amt'] = request.form.get('topbar_amt')
-    data['midbar_amt'] = request.form.get('midbar_amt')
-    data['botbar_amt'] = request.form.get('botbar_amt')
-    data['stirup_spacing'] = request.form.get('stirup_spacing')
+    data['topbar_amt'] = request.form.get('top_bar_amt')
+    data['midbar_amt'] = request.form.get('mid_bar_amt')
+    data['botbar_amt'] = request.form.get('bot_bar_amt')
+    data['stirup_spacing'] = request.form.get('stir_spacing')
 
     beam = Beam(data['doc_id'],data['tag'],data['wg_tag'],data['width'],data['depth'],data['length'],data['amount'],data['category'],data['topbar'], data['midbar'],data['botbar'],data['stirup'],data['stirup_spacing'],data['topbar_amt'],data['midbar_amt'],data['botbar_amt']) 
     
@@ -191,9 +190,9 @@ def column_result():
     data['height'] = request.form.get('height')
     data['amount'] = request.form.get('amount')
 
-    data['mainbar'] = request.form.get(' main_bar_type')
-    data['compositebar'] = request.form.get(' composite_bar_type')
-    data['stirup'] = request.form.get(' stir_bar_type')
+    data['mainbar'] = request.form.get('main_bar_type')
+    data['compositebar'] = request.form.get('composite_bar_type')
+    data['stirup'] = request.form.get('stir_bar_type')
 
     data['mainbar_amt'] = request.form.get('main_bar_amt')
     data['compositebar_amt'] = request.form.get('composite_bar_amt')
@@ -205,6 +204,44 @@ def column_result():
     db.session.commit()
 
     flash('Beam {} added to project!'.format(data['tag']), 'success')
+    return redirect(url_for('index.getwall'))
+
+@index.route('/Foundation_result', methods=['GET', 'POST'])
+def foundation_result():
+    """
+        Fast estimate Foundation
+    """
+    data = dict(
+    doc_id=uu_id('item')
+    ) 
+    data['tag'] = request.form.get('tag')
+    data['wg_tag'] = request.form.get('wg_tag')
+    data['category'] = request.form.get('category')
+
+    data['width'] = request.form.get('width')
+    data['depth'] = request.form.get('depth')
+    data['thickness'] = request.form.get('thickness')
+    data['length'] = request.form.get('length')
+    data['amount'] = request.form.get('amount')
+    
+
+
+    data['topbar'] = request.form.get('top_bar_type')
+    data['midbar'] = request.form.get('mid_bar_type')
+    data['botbar'] = request.form.get('bot_bar_type')
+    data['stirup'] = request.form.get('stir_bar_type')
+
+    data['topbar_amt'] = request.form.get('top_bar_amt')
+    data['midbar_amt'] = request.form.get('mid_bar_amt')
+    data['botbar_amt'] = request.form.get('bot_bar_amt')
+    data['stirup_spacing'] = request.form.get('stir_spacing')
+
+    foundation = Foundation(data['doc_id'],data['tag'],data['wg_tag'],data['width'],data['depth'],data['thickness'],data['length'],data['amount'],data['category'],data['topbar'], data['midbar'],data['botbar'],data['stirup'],data['stirup_spacing'],data['topbar_amt'],data['midbar_amt'],data['botbar_amt']) 
+    
+    db.session.add(foundation)
+    db.session.commit()
+
+    flash('Foundation {} added to project!'.format(data['tag']), 'success')
     return redirect(url_for('index.getwall'))
 
 

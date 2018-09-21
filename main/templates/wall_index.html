@@ -26,7 +26,7 @@
 </form>
 
 </div>
-<div class="col-4"><span class="badge badge-primary"><small>Components</small></span>
+<div class="col-4"><span class="badge badge-primary"><small>Wall Components</small></span>
     <div class="container">
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,13 +36,13 @@
                   <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                       <li class="nav-item active">
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addcolumnModalCenter">
-                                    <small>Add Column/Stiffener</small>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#">
+                                    <small>Add Component</small>
                                   </button>
                       </li>
                       <li class="nav-item">
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addbeamModalCenter">
-                                    <small>Add Beam/Belt</small>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#">
+                                    <small>Add Ac/Duct Port</small>
                                   </button>
                           </li>
                       <li class="nav-item">
@@ -87,7 +87,7 @@
   
     </div>
 
-<div class="col-3"><span class="badge badge-success"><small>Structurals</small></span>
+<div class="col-4"><span class="badge badge-success"><small>Structurals</small></span>
 
   <div class="container">
       
@@ -108,8 +108,8 @@
                             </button>
                     </li>
                 <li class="nav-item">
-                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
-                              <small>Add Opening</small>
+                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addfoundationModalCenter">
+                              <small>Add Foundation</small>
                             </button>
                 </li>
                
@@ -170,15 +170,40 @@
               </tbody>
           </table>
   </div>
-  
+  <div class="top-pad">
+      <table class="table" id="columns">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col"><small>Tag</small></th>
+                  <th scope="col"><small>W/GTag</small></th>
+                  <th scope="col"><small>Width</small></th>
+                  <th scope="col"><small>Depth</small></th>
+                  <th scope="col"><small>Thickness</small></th>
+                  <th scope="col"><small>Length</small></th>
+                  <th scope="col"><small>Amt</small></th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for foundation in foundations %}
+                   <tr>
+                      <td><a href="#"><small>{{ foundation.tag }}</small></a></td>
+                      <td><small>{{ foundation.wg_tag }}</small></td>
+                      <td><small>{{ foundation.width }}</small></td>
+                      <td><small>{{ foundation.depth }}</small></td>
+                      <td><small>{{ foundation.thickness }}</small></td>
+                      <td><small>{{ foundation.length }}</small></td>
+                      <td><small>{{ foundation.amount }}</small></td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+  </div>
 </div><!--End Column -->
 
 
 
 
-<div class="col-1">Explorer</div>
 
-</div>
 
 </div>
 
@@ -202,7 +227,7 @@
             <div class="form-group">{{ opening_form.amount.label }}{{ opening_form.amount(class_="form-control") }}</div>
             <div class="form-group">{{ opening_form.category.label }}: {{ opening_form.category() }}</div>
         </div>
-        <button type="submit" class="btn btn-default">Add</button>      
+        <button type="submit" class="btn btn-success">Add Wall Component </button>      
     </form>
     
 
@@ -257,7 +282,7 @@
                     </div> 
                </div> 
             </div>
-            <button type="submit" class="btn btn-default">Add</button>      
+            <button type="submit" class="btn btn-success">Add Structural  Beam</button>      
         </form>
         
     
@@ -311,7 +336,7 @@
                 </div> 
            </div> 
         </div>
-        <button type="submit" class="btn btn-default">Add</button>      
+        <button type="submit" class="btn btn-success">Add Structural Column</button>      
     </form>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -320,6 +345,62 @@
       </div>
     </div>
   </div><!-- Modal End -->
+
+  <!-- Foundation Modal -->
+  <div class="modal fade" bd-example-modal-lg id="addfoundationModalCenter" tabindex="-1" role="dialog" aria-labelledby="addfoundationModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addfoundationModalCenterTitle">Add Foundation Footing or Column Pad</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                  <form class="form-horizontal" method="POST" action="{{ url_for('index.foundation_result') }}" role="form"> 
+                  {{ foundation_form.csrf_token }}  
+              <div class="row">
+                <div class="col-3" id="col1">
+              <div class="form-group">{{ foundation_form.tag.label }}{{ foundation_form.tag(class_="form-control") }}</div>
+              <div class="form-group">{{ foundation_form.wg_tag.label }}{{ foundation_form.wg_tag(class_="form-control") }}</div>
+              <div class="form-group">{{ foundation_form.category.label }}: {{ foundation_form.category() }}</div>
+              </div>
+              <div class="col-3" id="col2">
+              <div class="form-group">{{foundation_form.width.label }}{{ foundation_form.width(class_="form-control") }}</div>
+              <div class="form-group">{{ foundation_form.depth.label }}{{ foundation_form.depth(class_="form-control") }}</div>
+
+              <div class="form-group">{{ foundation_form.thickness.label }}{{ foundation_form.thickness(class_="form-control") }}</div>
+              <div class="form-group">{{ foundation_form.length.label }}{{ foundation_form.length(class_="form-control") }}</div>
+              <div class="form-group">{{ foundation_form.amount.label }}{{ foundation_form.amount(class_="form-control") }}</div>
+              </div>
+              <div class="col-3" id="col3">
+                  <div class="form-group">{{foundation_form.top_bar_type.label }}{{ foundation_form.top_bar_type(class_="form-control") }}</div>
+                  <div class="form-group">{{ foundation_form.mid_bar_type.label }}{{ foundation_form.mid_bar_type(class_="form-control") }}</div>
+                  <div class="form-group">{{ foundation_form.bot_bar_type.label }}{{ foundation_form.bot_bar_type(class_="form-control") }}</div>
+                  <div class="form-group">{{ foundation_form.stir_bar_type.label }}{{ foundation_form.stir_bar_type(class_="form-control") }}</div>
+
+                </div>
+                <div class="col-3" id="col4">
+                    <div class="form-group">{{foundation_form.top_bar_amt.label }}{{ foundation_form.top_bar_amt(class_="form-control") }}</div>
+                    <div class="form-group">{{ foundation_form.mid_bar_amt.label }}{{ foundation_form.mid_bar_amt(class_="form-control") }}</div>
+                    <div class="form-group">{{ foundation_form.bot_bar_amt.label }}{{ foundation_form.bot_bar_amt(class_="form-control") }}</div>
+                    <div class="form-group">{{ foundation_form.stir_spacing.label }}{{ foundation_form.stir_spacing(class_="form-control") }}</div>
+
+                  </div> 
+             </div> 
+          </div>
+          <button type="submit" class="btn btn-success">Add Foundation</button>      
+      </form>
+      
+  
+  
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           
+          </div>
+        </div>
+      </div>
+    </div>
       
 
 {% endblock %}

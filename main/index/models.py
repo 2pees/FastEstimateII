@@ -39,7 +39,7 @@ class Beam(db.Model):
     def __init__(self,doc_id,tag,wg_tag,width,depth,length,amount,category,top_bar,mid_bar,bot_bar,stirup,stirup_spacing,amt_top,amt_mid,amt_bot):
         
         self.tag=tag
-        self.wall_tag=wg_tag
+        self.wg_tag=wg_tag
         
         self.width=width
         self.length=length
@@ -104,7 +104,57 @@ class Column(db.Model):
         self.stir_spacing = stirup_spacing      
              
     def __repr__(self):
-        return '<Structural Member Column {}'.format(self.tag)      
+        return '<Structural Member Column {}'.format(self.tag) 
+
+class Foundation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)    
+    tag = db.Column(db.String, unique=True)
+    wg_tag = db.Column(db.String(10))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category = db.relationship('Category', backref=db.backref('foundation', lazy=True))
+
+    width = db.Column(db.Float)
+    depth = db.Column(db.Float)
+    thickness = db.Column(db.Float)
+    length = db.Column(db.Float)
+    amount = db.Column(db.Integer)
+
+    top_bar_type = db.Column(db.String(20))
+    mid_bar_type = db.Column(db.String(20))
+    bot_bar_type = db.Column(db.String(20))
+    stir_bar_type = db.Column(db.String(20))
+
+    top_bar_amt = db.Column(db.Integer)
+    mid_bar_amt = db.Column(db.Integer)
+    bot_bar_amt = db.Column(db.Integer)
+    stir_spacing = db.Column(db.Float)
+    
+    timestamp = db.Column(db.String, default=time.ctime())
+    def __repr__(self):
+        return '<Structural Member Foundation {}'.format(self.tag)
+
+
+    def __init__(self,doc_id,tag,wg_tag,width,depth,thickness,length,amount,category,top_bar,mid_bar,bot_bar,stirup,stirup_spacing,amt_top,amt_mid,amt_bot):
+        
+        self.tag=tag
+        self.wg_tag=wg_tag
+        
+        self.width=width
+        self.length=length
+        self.depth=depth
+        self.thickness=thickness
+        self.amount=amount
+
+        self.top_bar_type = top_bar
+        self.mid_bar_type = mid_bar
+        self.bot_bar_type = bot_bar
+        self.stir_bar_type = stirup
+
+        self.top_bar_amt = amt_top
+        self.mid_bar_amt = amt_mid
+        self.bot_bar_amt = amt_bot
+        self.stir_spacing = stirup_spacing
+     
 
 
 
