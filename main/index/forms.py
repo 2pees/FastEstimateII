@@ -6,13 +6,14 @@ from main import FlaskForm, StringField, PasswordField, SubmitField, BooleanFiel
 
 class BeamEntryForm(FlaskForm):
     tag = TextField('Beam Tag', validators=[InputRequired()], render_kw={'autofocus':True})
-    wall_tag = TextField('Wall Tag')
+    wg_tag = TextField('Wall/Grid Tag')
     category = SelectField('Category', coerce=int)
 
     width = DecimalField('Width')
     depth = DecimalField('Depth')
     length = DecimalField('Length')
     amount = DecimalField('Amount')  
+
     top_bar_type = TextField('Top BarType')
     mid_bar_type = TextField('Mid BarType')
     bot_bar_type = TextField('Botton BarType')
@@ -25,7 +26,7 @@ class BeamEntryForm(FlaskForm):
 
 class ColumnEntryForm(FlaskForm):
     tag = TextField('Column Tag', validators=[InputRequired()], render_kw={'autofocus':True})
-    wall_tag = TextField('Wall Tag')
+    wg_tag = TextField('Wall/Grid Tag')
     category = SelectField('Category', coerce=int)
 
     width = DecimalField('Width')
@@ -43,7 +44,7 @@ class ColumnEntryForm(FlaskForm):
 
 class FootingEntryForm(FlaskForm):
     tag = TextField('Foundation Tag', validators=[InputRequired()], render_kw={'autofocus':True})
-    wall_tag = TextField('Wall Tag')
+    wg_tag = TextField('Wall Tag')
     category = SelectField('Category', coerce=int)
 
     width = DecimalField('Width')

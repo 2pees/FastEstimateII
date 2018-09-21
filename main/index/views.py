@@ -4,8 +4,8 @@
 from main import abort,app,Blueprint,date,db,dumps,flash,jsonify,loads,parse,redirect,render_template,requests,request,Resource,sample,url_for,uu_id#,qsrep 
 
 # Application Resources
-from main.index.models import Beam,  Opening, Category, Wall
-from main.index.forms import  BarTypeForm, BeamEntryForm, BeamCategoryForm, WallEntryForm,  OpeningForm,  WallBarsForm, CategoryForm,  ColumnCategoryForm, WallCategoryForm 
+from main.index.models import Beam, Column, Opening, Category, Wall
+from main.index.forms import  BarTypeForm, BeamEntryForm, BeamCategoryForm, ColumnEntryForm, WallEntryForm,  OpeningForm,  WallBarsForm, CategoryForm,  ColumnCategoryForm, WallCategoryForm 
 from main.index.qsrep import Walls
 from main.Bq import estimator
 # initialise once
@@ -43,23 +43,33 @@ def getwall():
         Fast estimate Wall
     """
     categories = [(c.id, c.name) for c in Category.query.all()]
-    w_form = WallEntryForm(request.form)
-    o_form = OpeningForm(request.form)
-    sb_form = BeamEntryForm(request.form)    
-    o_form.category.choices = categories
-    w_form.category.choices = categories
-    sb_form.category.choices = categories
-    
 
-    openings = Opening.query.all() 
-    beams = Beam.query.all()     
+    c_form = ColumnEntryForm(request.form)
+    o_form = OpeningForm(request.form)
+    sb_form = BeamEntryForm(request.form)
+    w_form = WallEntryForm(request.form)  
+
+    c_form.category.choices = categories
+    o_form.category.choices = categories
+    sb_form.category.choices = categories
+    w_form.category.choices = categories    
+
+    beams = Beam.query.all()
+    columns = Column.query.all() 
+    openings = Opening.query.all()
+    walls = Wall.query.all() 
+
+
     return render_template('wall_index.html',
-    title='FastEstimate Wall',
-    wall_form=w_form,
-    opening_form=o_form,
+    title='FastEstimate Wall', 
     beam_form=sb_form,
+    column_form=c_form,  
+    opening_form=o_form,
+    wall_form=w_form,    
+    beams=beams,
+    columns=columns,
     openings=openings,
-    beams=beams
+    walls=walls    
     )
 
 @index.route('/wall_result', methods=['POST'])
@@ -131,13 +141,13 @@ def wall_opening():
 @index.route('/beam_result', methods=['GET', 'POST'])
 def beam_result():
     """
-        Fast estimate Wall
+        Fast estimate Beam
     """
     data = dict(
     doc_id=uu_id('item')
     ) 
     data['tag'] = request.form.get('tag')
-    data['wall_tag'] = request.form.get('wall_tag')
+    data['wg_tag'] = request.form.get('wg_tag')
     data['width'] = request.form.get('width')
     data['depth'] = request.form.get('depth')
     data['length'] = request.form.get('length')
@@ -156,13 +166,47 @@ def beam_result():
     data['botbar_amt'] = request.form.get('botbar_amt')
     data['stirup_spacing'] = request.form.get('stirup_spacing')
 
-    beam = Beam(data['doc_id'],data['tag'],data['wall_tag'],data['width'],data['depth'],data['length'],data['amount'],data['category'],data['topbar'], data['midbar'],data['botbar'],data['stirup'],data['stirup_spacing'],data['topbar_amt'],data['midbar_amt'],data['botbar_amt']) 
+    beam = Beam(data['doc_id'],data['tag'],data['wg_tag'],data['width'],data['depth'],data['length'],data['amount'],data['category'],data['topbar'], data['midbar'],data['botbar'],data['stirup'],data['stirup_spacing'],data['topbar_amt'],data['midbar_amt'],data['botbar_amt']) 
     
     db.session.add(beam)
     db.session.commit()
 
     flash('Beam {} added to project!'.format(data['tag']), 'success')
     return redirect(url_for('index.getwall'))
+
+@index.route('/column_result', methods=['GET', 'POST'])
+def column_result():
+    """
+        Fast estimate Column
+    """
+    data = dict(
+    doc_id=uu_id('item')
+    ) 
+    data['tag'] = request.form.get('tag')
+    data['wg_tag'] = request.form.get('wg_tag')
+    data['category'] = Category.query.get_or_404(request.form.get('category')) 
+
+    data['width'] = request.form.get('width')
+    data['depth'] = request.form.get('depth')
+    data['height'] = request.form.get('height')
+    data['amount'] = request.form.get('amount')
+
+    data['mainbar'] = request.form.get(' main_bar_type')
+    data['compositebar'] = request.form.get(' composite_bar_type')
+    data['stirup'] = request.form.get(' stir_bar_type')
+
+    data['mainbar_amt'] = request.form.get('main_bar_amt')
+    data['compositebar_amt'] = request.form.get('composite_bar_amt')
+    data['stirup_spacing'] = request.form.get('stir_spacing')
+
+    column = Column(data['doc_id'],data['tag'],data['wg_tag'],data['category'],data['width'],data['depth'],data['height'],data['amount'],data['mainbar'], data['compositebar'],data['stirup'],data['stirup_spacing'],data['mainbar_amt'],data['compositebar_amt']) 
+    
+    db.session.add(column)
+    db.session.commit()
+
+    flash('Beam {} added to project!'.format(data['tag']), 'success')
+    return redirect(url_for('index.getwall'))
+
 
 @index.route('/walls')
 @index.route('/walls/<int:page>')

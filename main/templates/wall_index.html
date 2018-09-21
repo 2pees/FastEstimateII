@@ -28,6 +28,7 @@
 </div>
 <div class="col-4"><span class="badge badge-primary"><small>Components</small></span>
     <div class="container">
+
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,7 +36,7 @@
                   <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                       <li class="nav-item active">
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addcolumnModalCenter">
                                     <small>Add Column/Stiffener</small>
                                   </button>
                       </li>
@@ -57,6 +58,130 @@
     <!-- Button trigger modal -->
 
   
+
+  <div class="top-pad">
+        <table class="table" id="openings">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col"><small>Tag</small></th>
+                    <th scope="col"><small>WallTag</small></th>
+                    <th scope="col"><small>Width</small></th>
+                    <th scope="col"><small>Height</small></th>
+                    <th scope="col"><small>Amt</small></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for opening in openings %}
+                     <tr>
+                        <td><a href="#"><small>{{ opening.tag }}</small></a></td>
+                        <td><small>{{ opening.wall_tag }}</small></td>
+                        <td><small>{{ opening.width }}</small></td>
+                        <td><small>{{ opening.height }}</small></td>
+                        <td><small>{{ opening.amount }}</small></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+
+  
+    </div>
+
+<div class="col-3"><span class="badge badge-success"><small>Structurals</small></span>
+
+  <div class="container">
+      
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addcolumnModalCenter">
+                              <small>Add Column/Stiffener</small>
+                            </button>
+                </li>
+                <li class="nav-item">
+                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addbeamModalCenter">
+                              <small>Add Beam/Belt</small>
+                            </button>
+                    </li>
+                <li class="nav-item">
+                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                              <small>Add Opening</small>
+                            </button>
+                </li>
+               
+              </ul>
+          </div>
+      </nav>
+    </div>
+
+  <div class="top-pad">
+      <table class="table" id="beams">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col"><small>Tag</small></th>
+                  <th scope="col"><small>W/GTag</small></th>
+                  <th scope="col"><small>Width</small></th>
+                  <th scope="col"><small>Depth</small></th>
+                  <th scope="col"><small>Length</small></th>
+                  <th scope="col"><small>Amt</small></th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for beam in beams %}
+                   <tr>
+                      <td><a href="#"><small>{{ beam.tag }}</small></a></td>
+                      <td><small>{{ beam.wg_tag }}</small></td>
+                      <td><small>{{ beam.width }}</small></td>
+                      <td><small>{{ beam.depth }}</small></td>
+                      <td><small>{{ beam.length }}</small></td>
+                      <td><small>{{ beam.amount }}</small></td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+  </div>
+  <div class="top-pad">
+      <table class="table" id="columns">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col"><small>Tag</small></th>
+                  <th scope="col"><small>W/GTag</small></th>
+                  <th scope="col"><small>Width</small></th>
+                  <th scope="col"><small>Depth</small></th>
+                  <th scope="col"><small>Height</small></th>
+                  <th scope="col"><small>Amt</small></th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for column in columns %}
+                   <tr>
+                      <td><a href="#"><small>{{ column.tag }}</small></a></td>
+                      <td><small>{{ column.wg_tag }}</small></td>
+                      <td><small>{{ column.width }}</small></td>
+                      <td><small>{{ column.depth }}</small></td>
+                      <td><small>{{ column.height }}</small></td>
+                      <td><small>{{ column.amount }}</small></td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+  </div>
+  
+</div><!--End Column -->
+
+
+
+
+<div class="col-1">Explorer</div>
+
+</div>
+
+</div>
+
   <!-- Opening Modal -->
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -91,12 +216,12 @@
   </div>
 
 
-  <!-- Column Modal -->
+  <!-- Beam Modal -->
   <div class="modal fade" bd-example-modal-lg id="addbeamModalCenter" tabindex="-1" role="dialog" aria-labelledby="addbeamModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="addmeamModalCenterTitle">Add Beam or BeltCourse</h5>
+              <h5 class="modal-title" id="addbeamModalCenterTitle">Add Beam or BeltCourse</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -107,7 +232,7 @@
                 <div class="row">
                   <div class="col-3" id="col1">
                 <div class="form-group">{{ beam_form.tag.label }}{{ beam_form.tag(class_="form-control") }}</div>
-                <div class="form-group">{{ beam_form.wall_tag.label }}{{ beam_form.wall_tag(class_="form-control") }}</div>
+                <div class="form-group">{{ beam_form.wg_tag.label }}{{ beam_form.wg_tag(class_="form-control") }}</div>
                 <div class="form-group">{{ beam_form.category.label }}: {{ beam_form.category() }}</div>
                 </div>
                 <div class="col-3" id="col2">
@@ -144,71 +269,57 @@
           </div>
         </div>
       </div>
-  <div class="top-pad">
-        <table class="table" id="openings">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col"><small>Tag</small></th>
-                    <th scope="col"><small>WallTag</small></th>
-                    <th scope="col"><small>Width</small></th>
-                    <th scope="col"><small>Height</small></th>
-                    <th scope="col"><small>Amt</small></th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for opening in openings %}
-                     <tr>
-                        <td><small>{{ opening.tag }}</small></td>
-                        <td><small>{{ opening.wall_tag }}</small></td>
-                        <td><small>{{ opening.width }}</small></td>
-                        <td><small>{{ opening.height }}</small></td>
-                        <td><small>{{ opening.amount }}</small></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+
+
+  <!-- Column Modal -->
+  <div class="modal fade" bd-example-modal-lg id="addcolumnModalCenter" tabindex="-1" role="dialog" aria-labelledby="addcolumnModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addcolumnModalCenterTitle">Add Column Stiffeners Structural Support To Project</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <form class="form-horizontal" method="POST" action="{{ url_for('index.column_result') }}" role="form"> 
+                {{ column_form.csrf_token }}  
+            <div class="row">
+              <div class="col-3" id="col1">
+            <div class="form-group">{{ column_form.tag.label }}{{ column_form.tag(class_="form-control") }}</div>
+            <div class="form-group">{{ column_form.wg_tag.label }}{{ column_form.wg_tag(class_="form-control") }}</div>
+            <div class="form-group">{{ column_form.category.label }}: {{ column_form.category() }}</div>
+            </div>
+            <div class="col-3" id="col2">
+            <div class="form-group">{{column_form.width.label }}{{ column_form.width(class_="form-control") }}</div>
+            <div class="form-group">{{ column_form.depth.label }}{{ column_form.depth(class_="form-control") }}</div>
+            <div class="form-group">{{ column_form.height.label }}{{ column_form.height(class_="form-control") }}</div>
+            <div class="form-group">{{ column_form.amount.label }}{{ column_form.amount(class_="form-control") }}</div>
+            </div>
+            <div class="col-3" id="col3">
+                <div class="form-group">{{column_form.main_bar_type.label }}{{ column_form.main_bar_type(class_="form-control") }}</div>
+                <div class="form-group">{{ column_form.composite_bar_type.label }}{{ column_form.composite_bar_type(class_="form-control") }}</div>
+                
+                <div class="form-group">{{ column_form.stir_bar_type.label }}{{ column_form.stir_bar_type(class_="form-control") }}</div>
+
+              </div>
+              <div class="col-3" id="col4">
+                  <div class="form-group">{{column_form.main_bar_amt.label }}{{ column_form.main_bar_amt(class_="form-control") }}</div>
+                  <div class="form-group">{{ column_form.composite_bar_amt.label }}{{ column_form.composite_bar_amt(class_="form-control") }}</div>
+                  <div class="form-group">{{ column_form.stir_spacing.label }}{{ column_form.stir_spacing(class_="form-control") }}</div>
+
+                </div> 
+           </div> 
+        </div>
+        <button type="submit" class="btn btn-default">Add</button>      
+    </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         
+        </div>
+      </div>
     </div>
-
-  
-    </div>
-
-<div class="col-3"><span class="badge badge-success"><small>Structurals</small></span>
-  <div class="top-pad">
-      <table class="table" id="beams_columns">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col"><small>Tag</small></th>
-                  <th scope="col"><small>WallTag</small></th>
-                  <th scope="col"><small>Width</small></th>
-                  <th scope="col"><small>Depth</small></th>
-                  <th scope="col"><small>Length</small></th>
-                  <th scope="col"><small>Amt</small></th>
-                </tr>
-              </thead>
-              <tbody>
-                  {% for beam in beams %}
-                   <tr>
-                      <td><small>{{ beam.tag }}</small></td>
-                      <td><small>{{ beam.wall_tag }}</small></td>
-                      <td><small>{{ beam.width }}</small></td>
-                      <td><small>{{ beam.depth }}</small></td>
-                      <td><small>{{ beam.length }}</small></td>
-                      <td><small>{{ beam.amount }}</small></td>
-                  </tr>
-                  {% endfor %}
-              </tbody>
-          </table>
-  </div>
-  
-</div>
-
-
-
-
-<div class="col-1">Explorer</div>
-
-</div>
-
-</div>
+  </div><!-- Modal End -->
+      
 
 {% endblock %}
